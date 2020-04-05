@@ -144,6 +144,7 @@ def astar(sourceNode: Node, destNode: Node) -> List[Node]:
         if curr is None:
             break
         parent[curr] = p
+    print("# of nodes finalized in astar", len(visited))
     c = destNode
     path = []
     while c is not None:
@@ -155,7 +156,6 @@ def astar(sourceNode: Node, destNode: Node) -> List[Node]:
     if path[0] is not destNode or path[-1] is not sourceNode:
         return None
     path.reverse()
-    print("# of nodes finalized in astar", len(visited))
     return path
 
 def manhattanDistance(src: Node, dst: Node) -> int:
