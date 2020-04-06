@@ -176,6 +176,8 @@ def getCurrent(distance: Dict, heuristic: Dict, visited: Set[Node], neighbors: L
                 minKey = i
     return minKey
 
+verbose = False
+
 def main():
     graph = createRandomUnweightedGraphIter(10)
     nodes = graph.getAllNodes()
@@ -186,30 +188,15 @@ def main():
     bft_rec_arr = GraphSearch.BFTRec(graph)
     bft_iter_arr = GraphSearch.BFTIter(graph)
     print("--- Random Unweighted Graph ---")
+    printGraph(graph)
     print("--- DFS-Rec ---")
-    if dfs_rec_arr is None: 
-        print("None")
-    else:
-        for i in dfs_rec_arr: 
-            print(i.nodeVal, end=' ')
+    printList(dfs_rec_arr)
     print("\n--- DFS-Iter ---")
-    if dfs_iter_arr is None: 
-        print("None")
-    else:
-        for i in dfs_iter_arr: 
-            print(i.nodeVal, end=' ')
+    printList(dfs_iter_arr)
     print("\n--- BFT-Rec ---")
-    if bft_rec_arr is None: 
-        print("None")
-    else:
-        for i in bft_rec_arr: 
-            print(i.nodeVal, end=' ')
+    printList(bft_rec_arr)
     print("\n--- BFT-Iter ---")
-    if bft_iter_arr is None:
-        print("None")
-    else:
-        for i in bft_iter_arr: 
-            print(i.nodeVal, end=' ')
+    printList(bft_iter_arr)
 
     _graph = createLinkedList(10)
     _nodes = _graph.getAllNodes()
@@ -220,73 +207,78 @@ def main():
     _bft_rec_arr = GraphSearch.BFTRec(_graph)
     _bft_iter_arr = GraphSearch.BFTIter(_graph)
     print("\n--- Linked List ---")
+    printGraph(_graph)
     print("--- DFS-Rec ---")
-    if _dfs_rec_arr is None: 
-        print("None")
-    else:
-        for i in _dfs_rec_arr: 
-            print(i.nodeVal, end=' ')
+    printList(_dfs_rec_arr)
     print("\n--- DFS-Iter ---")
-    if _dfs_iter_arr is None: 
-        print("None")
-    else:
-        for i in _dfs_iter_arr: 
-            print(i.nodeVal, end= ' ')
+    printList(_dfs_iter_arr)
     print("\n--- BFT-Rec ---")
-    if _bft_rec_arr is None: 
-        print("None")
-    else:
-        for i in _bft_rec_arr: 
-            print(i.nodeVal, end=' ')
+    printList(_bft_rec_arr)
     print("\n--- BFT-Iter ---")
-    if _bft_iter_arr is None: 
-        print("None")
-    else:
-        for i in _bft_iter_arr: 
-            print(i.nodeVal, end=' ')
+    printList(_bft_iter_arr)
 
+    topSort_graph = createRandomDAGIter(10)
     print("\n--- Random Directed Acyclic Graph ---")
-    topSort_graph = createRandomDAGIter(1000)
+    printGraph(topSort_graph)
     topSort_kahns = TopSort.Kahns(topSort_graph)
-    print("--- Topological Sort - Kahns ---")
-    if topSort_kahns is None:
-        print("None")
-    else:
-        for i in topSort_kahns: print(i.nodeVal, end=' ')
+    print("--- Kahns Output---")
+    printList(topSort_kahns)
     topSort_mDFS = TopSort.mDFS(topSort_graph)
-    print("\n--- Topological Sort - mDFS ---")
-    if topSort_mDFS is None: 
-        print("None")
-    else:
-        for i in topSort_mDFS: 
-            print(i.nodeVal, end=' ')
+    print("\n--- mDFS Output ---")
+    printList(topSort_mDFS)
 
+    dijkstras_graph = createRandomCompleteWeightedGraph(10)
     print("\n--- Random Complete Weighted Graph ---")
-    dijkstras_graph = createRandomCompleteWeightedGraph(1000)
-    dijkstras_nodes = dijkstras_graph.getAllNodes()
-    dijkstras_listOfNodes = list(dijkstras_nodes)
-    dijkstras_listOfNodes.sort(key=lambda x: x.nodeVal)
-    dijkstras_result = dijkstras(dijkstras_listOfNodes[2])
-    print("--- Dijkstras ---")
-    if dijkstras_result is None: 
-        print("None")
-    else:
-        for i in dijkstras_result:
-            print(i.nodeVal, dijkstras_result[i])
+    printGraph(dijkstras_graph)
+    dijkstras_result = runDijkstras(dijkstras_graph, 2)
+    print("--- Dijkstras Output ---")
+    printDijkstras(dijkstras_result)
 
+    astar_graph = createRandomGridGraph(3)
     print("--- Random Grid Graph ---")
-    astar_graph = createRandomGridGraph(100)
-    astar_nodes = astar_graph.getAllNodes()
-    astar_listOfNodes = list(astar_nodes)
-    astar_listOfNodes.sort(key=lambda x: x.nodeVal)
-    astar_sourceNode = astar_listOfNodes[0]
-    astar_dstNode = astar_listOfNodes[9999] 
-    astar_result = astar(astar_sourceNode, astar_dstNode)
-    if astar_result is None:
-        print("None")
+    printGraph(astar_graph)
+    astar_result = runAstar(astar_graph, 0, 8)
+    print("--- A* Output ---")
+    printList(astar_result)
+
+def printGraph(graph: DirectedGraph):
+    if verbose:
+        print("Start to Print Graph")
+        nodes = graph.getAllNodes()
+        for node in nodes:
+            print("--- Node", node.nodeVal, "---")
+            for neighbor in node.neighbors:
+                print("Neighbor -", neighbor.nodeVal, "Weight -", node.neighbors[neighbor])
+        print("Done Printing Graph")
+
+def printDijkstras(result: Dict):
+    print("To:Cost")
+    if result:
+        for i in result:
+            print(i.nodeVal, result[i], sep=":")
     else:
-        for i in astar_result:
+        print(result)
+
+def runDijkstras(graph: WeightedGraph, start: int) -> Dict:
+    print("--- Dijkstras From Node", start, "---")
+    nodes = graph.getAllNodes()
+    list_of_nodes = list(nodes)
+    list_of_nodes.sort(key=lambda x: x.nodeVal)
+    return dijkstras(list_of_nodes[start])
+
+def runAstar(graph: GridGraph, start: int, end: int) -> List[Node]:
+    print("--- A* From Node", start, "to", end, "---")
+    nodes = graph.getAllNodes()
+    list_of_nodes = list(nodes)
+    list_of_nodes.sort(key=lambda x: x.nodeVal)
+    return astar(list_of_nodes[start], list_of_nodes[end])
+
+def printList(result: List[Node]):
+    if result:
+        for i in result:
             print(i.nodeVal, end=' ')
+    else:
+        print(result)
 
 if __name__ == "__main__":
     main()
