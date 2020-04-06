@@ -217,7 +217,7 @@ def main():
     print("\n--- BFT-Iter ---")
     printList(_bft_iter_arr)
 
-    topSort_graph = createRandomDAGIter(10)
+    topSort_graph = createRandomDAGIter(1000)
     print("\n--- Random Directed Acyclic Graph ---")
     printGraph(topSort_graph)
     topSort_kahns = TopSort.Kahns(topSort_graph)
@@ -227,17 +227,17 @@ def main():
     print("\n--- mDFS Output ---")
     printList(topSort_mDFS)
 
-    dijkstras_graph = createRandomCompleteWeightedGraph(10)
+    dijkstras_graph = createRandomCompleteWeightedGraph(1000)
     print("\n--- Random Complete Weighted Graph ---")
     printGraph(dijkstras_graph)
     dijkstras_result = runDijkstras(dijkstras_graph, 2)
     print("--- Dijkstras Output ---")
     printDijkstras(dijkstras_result)
 
-    astar_graph = createRandomGridGraph(3)
+    astar_graph = createRandomGridGraph(100)
     print("--- Random Grid Graph ---")
     printGraph(astar_graph)
-    astar_result = runAstar(astar_graph, 0, 8)
+    astar_result = runAstar(astar_graph, 0, 9999)
     print("--- A* Output ---")
     printList(astar_result)
 
