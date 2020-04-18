@@ -21,7 +21,7 @@ class GraphSearch:
         for neighbor in start.neighbors:
             if neighbor not in visited:
                 result = GraphSearch.__DFSRecHelper(neighbor, end, arr, visited)
-                if result is not None:
+                if result:
                     return arr
 
     @staticmethod
