@@ -28,7 +28,7 @@ def createRandomUnweightedGraphIter(n: int) -> Graph:
 def createLinkedList(n: int) -> Graph:
     graph = Graph()
     if not n:
-        return Graph
+        return graph
     prev = graph.addNode(0)
     for i in range(1, n):
         curr = graph.addNode(i)
