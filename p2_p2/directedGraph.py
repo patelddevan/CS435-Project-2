@@ -13,10 +13,12 @@ class DirectedGraph:
         return node
 
     def addDirectedEdge(self, first: Node, second: Node):
-        self.nodes[first].neighbors[second] = 0
+        if first in self.nodes:
+            self.nodes[first].neighbors[second] = 0
     
     def removeDirectedEdge(self, first: Node, second: Node):
-        self.nodes[first].neighbors.pop(second, None)
+        if first in self.nodes:
+            self.nodes[first].neighbors.pop(second, None)
     
     def getAllNodes(self) -> Set[Node]:
         return set(self.nodes)
