@@ -112,10 +112,11 @@ def dijkstras(start: Node) -> Dict:
 
 def createRandomGridGraph(n: int) -> GridGraph:
     graph = GridGraph()
-    nodeValues = iter([i for i in range(n*n)])
+    nodeValue = 0
     for i in range(n):
         for j in range(n):
-            graph.addNode(next(nodeValues), i, j)
+            graph.addNode(nodeValue, i, j)
+            nodeValue += 1
     nodes = graph.getAllNodes()
     visited = set()
     for node in nodes:
