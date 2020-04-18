@@ -8,7 +8,11 @@ from node import Node
 class TopSort:
     @staticmethod
     def Kahns(graph: DirectedGraph) -> List[Node]:
-        inDegreeMap = TopSort.initInDegreeMap(graph)
+        nodes = graph.getAllNodes()
+        inDegreeMap = {node:0 for node in nodes}
+        for node in nodes:
+            for neighbor in node.neighbors:
+                inDegreeMap[neighbor] += 1
         topSort = []
         queue = deque()
         for node in inDegreeMap:
@@ -26,15 +30,6 @@ class TopSort:
         if count != len(graph.nodes):
             return None
         return topSort
-    
-    @staticmethod
-    def initInDegreeMap(graph: DirectedGraph) -> Dict:
-        nodes = graph.getAllNodes()
-        inDegreeMap = {node:0 for node in nodes}
-        for node in nodes:
-            for neighbor in node.neighbors:
-                inDegreeMap[neighbor] += 1
-        return inDegreeMap
 
     @staticmethod
     def mDFS(graph: DirectedGraph) -> List[Node]:
