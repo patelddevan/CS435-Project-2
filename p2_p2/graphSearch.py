@@ -48,6 +48,7 @@ class GraphSearch:
             if node not in visited:
                 queue = deque()
                 queue.append(node)
+                visited.add(node)
                 GraphSearch.__BFTRecHelper(graph, queue, arr, visited)
         return arr
 
@@ -56,10 +57,10 @@ class GraphSearch:
         if len(queue) != 0:
             next = queue.popleft()
             arr.append(next)
-            visited.add(next)
             for neighbor in next.neighbors:
                 if neighbor not in visited:
                     queue.append(neighbor)
+                    visited.add(neighbor)
             return GraphSearch.__BFTRecHelper(graph, queue, arr, visited)
 
     @staticmethod
@@ -70,6 +71,7 @@ class GraphSearch:
             if node not in visited:
                 queue = deque()
                 queue.append(node)
+                visited.add(node)
                 GraphSearch.__BFTIterHelper(graph, queue, arr, visited)
         return arr
     
@@ -78,7 +80,7 @@ class GraphSearch:
         while len(queue) != 0:
             next = queue.popleft()
             arr.append(next)
-            visited.add(next)
             for neighbor in next.neighbors:
                 if neighbor not in visited:
                     queue.append(neighbor)
+                    visited.add(neighbor)
