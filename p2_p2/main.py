@@ -153,10 +153,9 @@ def astar(sourceNode: Node, destNode: Node) -> List[Node]:
             c = parent[c]
         else:
             c = None
-    if path[0] is not destNode or path[-1] is not sourceNode:
-        return None
     path.reverse()
-    return path
+    if path[0] is sourceNode and path[-1] is destNode:
+        return path
 
 def manhattanDistance(src: Node, dst: Node) -> int:
     return abs(dst.coordinate[0] - src.coordinate[0]) + abs(dst.coordinate[1] - src.coordinate[1])
