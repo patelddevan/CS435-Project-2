@@ -6,3 +6,12 @@ class Node:
         self.nodeVal: int = nodeVal
         self.neighbors: Dict[Node, int]  = {}
         self.coordinate: List[int] = []
+
+    def getNodeVal(self):
+        return self.nodeVal
+
+    def getNeighbors(self):
+        return self.neighbors
+
+    def getCoordinate(self):
+        return self.coordinate
