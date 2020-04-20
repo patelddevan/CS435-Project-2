@@ -18,7 +18,7 @@ class GraphSearch:
         visited.add(start)
         if start == end:
             return 1
-        for neighbor in start.neighbors:
+        for neighbor in start.getNeighbors():
             if neighbor not in visited:
                 result = GraphSearch.__DFSRecHelper(neighbor, end, arr, visited)
                 if result:
@@ -36,7 +36,7 @@ class GraphSearch:
             visited.add(next)
             if next == end:
                 return arr
-            for neighbor in next.neighbors:
+            for neighbor in next.getNeighbors():
                 if neighbor not in visited:
                     stack.append(neighbor)
 
@@ -57,7 +57,7 @@ class GraphSearch:
         if len(queue) != 0:
             next = queue.popleft()
             arr.append(next)
-            for neighbor in next.neighbors:
+            for neighbor in next.getNeighbors():
                 if neighbor not in visited:
                     queue.append(neighbor)
                     visited.add(neighbor)
@@ -80,7 +80,7 @@ class GraphSearch:
         while len(queue) != 0:
             next = queue.popleft()
             arr.append(next)
-            for neighbor in next.neighbors:
+            for neighbor in next.getNeighbors():
                 if neighbor not in visited:
                     queue.append(neighbor)
                     visited.add(neighbor)
