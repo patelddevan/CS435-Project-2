@@ -63,7 +63,7 @@ def hasCycle(graph: DirectedGraph, first: Node, second: Node) -> bool:
     while len(stack) != 0:
         next = stack.pop()
         grey.add(next)
-        for neighbor in next.neighbors:
+        for neighbor in next.getNeighbors():
             if neighbor in grey:
                 return True
             stack.append(neighbor)
@@ -102,11 +102,11 @@ def dijkstras(start: Node) -> Dict:
     curr = start
     while curr is not None and curr in distance:
         visited.add(curr)
-        for neighbor in curr.neighbors:
+        for neighbor in curr.getNeighbors():
             if neighbor not in visited:
-                if (neighbor not in distance) or (distance[curr] + curr.neighbors[neighbor] < distance[neighbor]):
-                    distance[neighbor] = distance[curr] + curr.neighbors[neighbor]
-        curr = getCurrent(distance, None, visited, curr.neighbors)
+                if (neighbor not in distance) or (distance[curr] + curr.getNeighbors()[neighbor] < distance[neighbor]):
+                    distance[neighbor] = distance[curr] + curr.getNeighbors()[neighbor]
+        curr = getCurrent(distance, None, visited, curr.getNeighbors())
     print("# of nodes finalized in dijkstras", len(visited))
     return distance
 
@@ -136,12 +136,12 @@ def astar(sourceNode: Node, destNode: Node) -> List[Node]:
     curr = sourceNode
     while curr is not destNode:
         visited.add(curr)
-        for neighbor in curr.neighbors:
+        for neighbor in curr.getNeighbors():
             if neighbor not in visited and (neighbor not in distance or distance[neighbor] < distance[curr]):
                 distance[neighbor] = distance[curr] + 1
                 heuristic[neighbor] = manhattanDistance(neighbor, destNode)
         p = curr
-        curr = getCurrent(distance, heuristic, visited, curr.neighbors)
+        curr = getCurrent(distance, heuristic, visited, curr.getNeighbors())
         if curr is None:
             break
         parent[curr] = p
@@ -159,7 +159,7 @@ def astar(sourceNode: Node, destNode: Node) -> List[Node]:
         return path
 
 def manhattanDistance(src: Node, dst: Node) -> int:
-    return abs(dst.coordinate[0] - src.coordinate[0]) + abs(dst.coordinate[1] - src.coordinate[1])
+    return abs(dst.getCoordinate()[0] - src.getCoordinate()[0]) + abs(dst.getCoordinate()[1] - src.getCoordinate()[1])
 
 def getCurrent(distance: Dict, heuristic: Dict, visited: Set[Node], neighbors: List[Node]):
     min = maxsize
@@ -246,16 +246,16 @@ def printGraph(graph: DirectedGraph):
         print("Start to Print Graph")
         nodes = graph.getAllNodes()
         for node in nodes:
-            print("--- Node", node.nodeVal, "---")
-            for neighbor in node.neighbors:
-                print("Neighbor -", neighbor.nodeVal, "Weight -", node.neighbors[neighbor])
+            print("--- Node", node.getNodeVal(), "---")
+            for neighbor in node.getNeighbors():
+                print("Neighbor -", neighbor.getNodeVal(), "Weight -", node.getNeighbors()[neighbor])
         print("Done Printing Graph")
 
 def printDijkstras(result: Dict):
     print("To:Cost")
     if result:
         for i in result:
-            print(i.nodeVal, result[i], sep=":")
+            print(i.getNodeVal(), result[i], sep=":")
     else:
         print(result)
 
@@ -276,7 +276,7 @@ def runAstar(graph: GridGraph, start: int, end: int) -> List[Node]:
 def printList(result: List[Node]):
     if result:
         for i in result:
-            print(i.nodeVal, end=' ')
+            print(i.getNodeVal(), end=' ')
     else:
         print(result)
 
