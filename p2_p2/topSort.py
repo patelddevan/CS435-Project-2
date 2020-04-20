@@ -11,7 +11,7 @@ class TopSort:
         nodes = graph.getAllNodes()
         inDegreeMap = {node:0 for node in nodes}
         for node in nodes:
-            for neighbor in node.neighbors:
+            for neighbor in node.getNeighbors():
                 inDegreeMap[neighbor] += 1
         topSort = []
         queue = deque()
@@ -23,7 +23,7 @@ class TopSort:
             node = queue.popleft()
             topSort.append(node)
             count += 1
-            for neighbor in node.neighbors:
+            for neighbor in node.getNeighbors():
                 inDegreeMap[neighbor] -= 1
                 if inDegreeMap[neighbor] == 0:
                     queue.append(neighbor)
@@ -44,7 +44,7 @@ class TopSort:
     @staticmethod
     def mDFSHelper(graph: DirectedGraph, node: Node, stack: List[Node], visited: Set[Node]):
         visited.add(node)
-        for neighbor in node.neighbors:
+        for neighbor in node.getNeighbors():
             if neighbor not in visited:
                 TopSort.mDFSHelper(graph, neighbor, stack, visited)
         stack.append(node)
